@@ -28,6 +28,8 @@ ChangeSchemaste_node1718802991789 = ApplyMapping.apply(frame=step_trainer_node17
 Join_node1718803188381 = Join.apply(frame1=ChangeSchemacus_node1718802990724, frame2=ChangeSchemaste_node1718802991789, keys1=["cus_serialnumber"], keys2=["ste_serialnumber"], transformation_ctx="Join_node1718803188381")
 
 # Script generated for node machine_learning_curated
-machine_learning_curated_node1718803245263 = glueContext.write_dynamic_frame.from_options(frame=Join_node1718803188381, connection_type="s3", format="json", connection_options={"path": "s3://jiffbucket/customer/machine_learning/", "partitionKeys": []}, transformation_ctx="machine_learning_curated_node1718803245263")
-
+machine_learning_curated_node1718803245263 = glueContext.getSink(path="s3://jiffbucket/customer/machine_learning/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], enableUpdateCatalog=True, transformation_ctx="machine_learning_curated_node1718803245263")
+machine_learning_curated_node1718803245263.setCatalogInfo(catalogDatabase="jiffdb",catalogTableName="machine_learning_curated")
+machine_learning_curated_node1718803245263.setFormat("json")
+machine_learning_curated_node1718803245263.writeFrame(Join_node1718803188381)
 job.commit()
