@@ -29,6 +29,9 @@ where shareWithResearchAsOfDate is not null
 SQLQuery_node1718280562475 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"myDataSource":CustomerLanding_node1718202327876}, transformation_ctx = "SQLQuery_node1718280562475")
 
 # Script generated for node Customer Trusted
-CustomerTrusted_node1718202855559 = glueContext.write_dynamic_frame.from_options(frame=SQLQuery_node1718280562475, connection_type="s3", format="json", connection_options={"path": "s3://jiffbucket/customer/trusted/", "partitionKeys": []}, transformation_ctx="CustomerTrusted_node1718202855559")
+CustomerTrusted_node1718202855559 = glueContext.getSink(path="s3://jiffbucket/customer/trusted/", connection_type="s3", updateBehavior="LOG", partitionKeys=[], enableUpdateCatalog=True, transformation_ctx="CustomerTrusted_node1718202855559")
+CustomerTrusted_node1718202855559.setCatalogInfo(catalogDatabase="jiffdb",catalogTableName="customer_trusted")
+CustomerTrusted_node1718202855559.setFormat("json")
+CustomerTrusted_node1718202855559.writeFrame(SQLQuery_node1718280562475)
 
 job.commit()
