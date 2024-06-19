@@ -36,6 +36,9 @@ select email from customer_trusted
 SQLQuery_node1718357472107 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"accelerometer_landing":accelerometer_landing_node1718356774584, "customer_trusted":customer_trusted_node1718357408384}, transformation_ctx = "SQLQuery_node1718357472107")
 
 # Script generated for node accelerometer_trusted
-accelerometer_trusted_node1718358076096 = glueContext.write_dynamic_frame.from_options(frame=SQLQuery_node1718357472107, connection_type="s3", format="json", connection_options={"path": "s3://jiffbucket/accelerometer/trusted/", "partitionKeys": []}, transformation_ctx="accelerometer_trusted_node1718358076096")
+accelerometer_trusted_node1718797161706 = glueContext.getSink(path="s3://jiffbucket/accelerometer/trusted/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], enableUpdateCatalog=True, transformation_ctx="accelerometer_trusted_node1718797161706")
+accelerometer_trusted_node1718797161706.setCatalogInfo(catalogDatabase="jiffdb",catalogTableName="accelerometer_trusted")
+accelerometer_trusted_node1718797161706.setFormat("json")
+accelerometer_trusted_node1718797161706.writeFrame(SQLQuery_node1718797073910)
 
 job.commit()
