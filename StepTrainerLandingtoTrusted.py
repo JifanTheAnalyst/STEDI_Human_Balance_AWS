@@ -33,6 +33,9 @@ where serialnumber in (select serialnumber from customer_curated
 SQLQuery_node1718367793073 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"step_trainer":step_trainer_node1718367787128, "customer_curated":customer_curated_node1718367786242}, transformation_ctx = "SQLQuery_node1718367793073")
 
 # Script generated for node step_trainer_trusted
-step_trainer_trusted_node1718802449129 = glueContext.write_dynamic_frame.from_options(frame=SQLQuery_node1718367793073, connection_type="s3", format="json", connection_options={"path": "s3://jiffbucket/step_trainer/trusted/", "compression": "snappy", "partitionKeys": []}, transformation_ctx="step_trainer_trusted_node1718802449129")
+step_trainer_trusted_node1718802449129 = glueContext.getSink(path="s3://jiffbucket/step_trainer/trusted/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], enableUpdateCatalog=True, transformation_ctx="step_trainer_trusted_node1718802449129")
+step_trainer_trusted_node1718802449129.setCatalogInfo(catalogDatabase="jiffdb",catalogTableName="step_trainer_trusted")
+step_trainer_trusted_node1718802449129.setFormat("json")
+step_trainer_trusted_node1718802449129.writeFrame(SQLQuery_node1718367793073)
 
 job.commit()
